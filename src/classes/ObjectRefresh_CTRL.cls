@@ -1,3 +1,8 @@
+/**
+ * src/classes/ObjectRefresh_CTRL.cls
+ *
+ * The controller for the ObjectRefresh Visualforce page.
+ */
 public class ObjectRefresh_CTRL {
   public String selectedObject {get; set;}
   public List<SelectOption> objects {get; set;}
