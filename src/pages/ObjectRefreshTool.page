@@ -1,0 +1,15 @@
+<!-- 
+ * @author Chris Duncan
+ * @date 2017
+ * @description Allows selection of an object for touch update and displays batch progress.
+-->
+<apex:page controller="ObjectRefreshTool_CTRL" docType="html-5.0">
+  <apex:slds />
+  <div class="slds-scope">
+    
+    <apex:messages styleClass="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" />
+    <c:ObjectRefresh batch="{!batchJob}" />
+    <c:JobProgress batchId="{!batchJob.Id}" rendered="{!batchJob.Id!=null}" />
+    
+  </div>
+</apex:page>
