@@ -1,0 +1,40 @@
+@isTest
+private class ObjectRefresh_TEST {
+  
+  @testSetup static void testSetup() {
+    List<Account> listAccount = new List<Account>();
+    for (Integer i=0; i<100; i++) {
+      String n = 'Test Account ' + i;
+      Account a = new Account(Name = n);
+      listAccount.add(a);
+    }
+    insert listAccount;
+  }
+  
+  testMethod static void testCtr() {
+    Test.startTest();
+    ObjectRefresh_CTRL ctrl = new ObjectRefresh_CTRL();
+    System.assertEquals('', ctrl.selectedObject);
+    System.assertNotEquals(null, ctrl.objects);
+    
+    Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+    for (SelectOption so : ctrl.objects) {
+      String s = so.getValue();
+      System.assert(gd.containsKey(s));
+    }
+    Test.stopTest();
+  }
+  
+  testMethod static void testSubmit() {
+    ObjectRefresh_CTRL ctrl = new ObjectRefresh_CTRL();
+    Test.startTest();
+    
+    ctrl.submit();
+    System.assertEquals(null, ctrl.batchId);
+    
+    ctrl.selectedObject = 'Account';
+    ctrl.submit();
+    Test.stopTest();
+    System.assertNotEquals(null, ctrl.batchId);
+  }
+}

@@ -1,0 +1,36 @@
+<!-- 
+ * Salesforce.org 2014
+ * Original work by Jason Venable, http://www.tehnrd.com - 2009
+ * Modified by Chris Duncan, 2017
+ * Component that displays progress for batch Apex jobs.
+ * Usage: <c:UTIL_JobProgress strComponentLabel="Batch Apex Job Progress" />
+-->
+<apex:component controller="JobProgress_CTRL" selfClosing="true">
+  
+  <apex:attribute name="batchId" type="Id" assignTo="{!batchJobId}" description="The id of the batch job." required="true" />
+  <apex:attribute name="strComponentLabel" type="String" assignTo="{!componentLabel}" description="The label of the progress bar section."/>
+  
+  <apex:form >
+    <apex:actionPoller rerender="batchJobsProgress" interval="5"
+        enabled="{!batchJob.Status!='Completed'&&batchJob.Status!='Failed'&&batchJob.Status!='Aborted'}" />
+    <apex:outputPanel id="batchJobsProgress">
+      <h3>Current Status: {!batchJob.Status}</h3>
+      <p>Started by {!batchJob.CreatedBy.Name} on {!batchJob.CreatedDate}</p>
+      <p>{!batchJob.ApexClass.Name}{!if(batchJob.Status == 'Completed', ' processed ', ' is processing ')}
+        {!batchJob.JobItemsProcessed} of {!batchJob.TotalJobItems} batches.</p>
+      
+      <div style="background:#fff; border:2px solid #0070d2; border-radius:15rem; width:50%">
+        <div style="width:{!percentComplete}%; color:#fff; padding:0.3125rem;
+            background:#{!if(batchJob.Status=='Aborted'||batchJob.Status=='Failed','d4504c',
+                if(batchJob.Status=='Completed','4bca81','1589ee'))};
+            border-radius:15rem{!if(percentComplete==100,'',' 0 0 15rem')};">
+          {!percentComplete}%
+        </div>
+      </div>
+      <apex:outputPanel id="ExtendedStatusPanel" rendered="{!hasExtendedStatus}">
+        <h3>An error was thrown during the process. The following status was the first reported error: </h3>
+        <p style="font-weight:bold;">{!batchJob.ExtendedStatus}</p>
+      </apex:outputPanel>
+    </apex:outputPanel>
+  </apex:form>
+</apex:component>
