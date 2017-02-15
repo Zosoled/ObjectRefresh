@@ -1,3 +1,8 @@
+<!-- 
+ * @author Chris Duncan
+ * @date 2017
+ * @description Allows selection of an object for touch update and displays batch progress.
+-->
 <apex:page controller="ObjectRefresh_CTRL" standardStylesheets="false" docType="html-5.0">
 <apex:slds />
 <div class="slds-scope">

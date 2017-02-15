@@ -1,7 +1,13 @@
+/**
+ * src/classes/ObjectRefresh_TEST.cls
+ *
+ * Tests for the ObjectRefresh controller and batch execution.
+ */
 @isTest
 private class ObjectRefresh_TEST {
   
-  @testSetup static void testSetup() {
+  @testSetup
+  static void testSetup() {
     List<Account> listAccount = new List<Account>();
     for (Integer i=0; i<100; i++) {
       String n = 'Test Account ' + i;
@@ -11,7 +17,8 @@ private class ObjectRefresh_TEST {
     insert listAccount;
   }
   
-  testMethod static void testCtr() {
+  @isTest
+  static void testCtr() {
     Test.startTest();
     ObjectRefresh_CTRL ctrl = new ObjectRefresh_CTRL();
     System.assertEquals('', ctrl.selectedObject);
@@ -25,7 +32,8 @@ private class ObjectRefresh_TEST {
     Test.stopTest();
   }
   
-  testMethod static void testSubmit() {
+  @isTest
+  static void testSubmit() {
     ObjectRefresh_CTRL ctrl = new ObjectRefresh_CTRL();
     Test.startTest();
     
@@ -36,5 +44,15 @@ private class ObjectRefresh_TEST {
     ctrl.submit();
     Test.stopTest();
     System.assertNotEquals(null, ctrl.batchId);
+  }
+  
+  @isTest
+  static void testCancel() {
+    
+  }
+  
+  @isTest
+  static void testBatch() {
+    
   }
 }

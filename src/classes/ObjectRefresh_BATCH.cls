@@ -1,3 +1,8 @@
+/**
+ * src/classes/ObjectRefresh_BATCH.cls
+ *
+ * The batchable class that is executed from the ObjectRefresh controller.
+ */
 global class ObjectRefresh_BATCH implements Database.Batchable<sObject>, Database.Stateful {
   private String obj;
   public Database.SaveResult[] dsr;
@@ -20,10 +25,7 @@ global class ObjectRefresh_BATCH implements Database.Batchable<sObject>, Databas
     try {
     	records = Database.query(q);
     } catch (Exception e) {
-      System.debug(e.getMessage());
-      System.debug(e.getLineNumber());
-      System.debug(e.getCause());
-      System.debug(e.getStackTraceString());
+      throw new ObjectRefreshBatch_Exception('Error when querying records.', e);
     }
     return records;
   }
@@ -34,10 +36,7 @@ global class ObjectRefresh_BATCH implements Database.Batchable<sObject>, Databas
       try {
       	results = Database.update(records);
       } catch (Exception e) {
-        System.debug(e.getMessage());
-        System.debug(e.getLineNumber());
-        System.debug(e.getCause());
-        System.debug(e.getStackTraceString());
+        throw new ObjectRefreshBatch_Exception('Error when querying records.', e);
       }
     }
     dsr.addAll(results);
